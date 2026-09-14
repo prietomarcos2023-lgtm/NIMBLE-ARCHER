@@ -126,10 +126,24 @@ h1,h2,h3{ font-family:'Cinzel', serif; margin:0; }
 .split-input span{ font-size:10px; color:var(--parchment-dim); }
 
 /* ============================================
+   LAYOUT (sidebar + sala de máquinas)
+============================================ */
+.layout{
+  display:flex;
+  align-items:flex-start;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================
    ENGINE ROOM / ORBIT STAGE
 ============================================ */
 .engine-room{
   position:relative;
+  flex: 1;
+  min-width: 0;
   min-height: 640px;
   display:flex;
   align-items:center;
@@ -362,38 +376,44 @@ h1,h2,h3{ font-family:'Cinzel', serif; margin:0; }
 }
 
 /* ============================================
-   NODE DETAIL
+   NODE DETAIL (sidebar vertical, izquierda)
 ============================================ */
 .node-detail{
-  max-width: 720px;
-  margin: 20px auto 0;
-  padding: 0 20px;
-  min-height: 40px;
+  flex: 0 0 320px;
+  width: 320px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 4px;
 }
 .detail-placeholder{
   text-align:center;
   color: var(--parchment-faint);
   font-size: 12.5px;
+  border: 1px dashed var(--brass-dim);
+  border-radius: 4px;
+  padding: 28px 16px;
 }
 
 .detail-card{
   background: linear-gradient(180deg, #2E2317, #201810);
   border: 2px solid var(--patina);
   border-radius: 4px;
-  padding: 20px 22px;
+  padding: 20px 20px;
 }
 .detail-top{
-  display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
-  margin-bottom:8px;
+  display:flex; flex-direction:column; gap:4px;
+  margin-bottom:10px;
 }
 .detail-id{ font-size:10.5px; color:var(--parchment-faint); letter-spacing:0.06em; }
 .detail-title{ font-family:'Cinzel', serif; font-size:19px; color:var(--parchment); }
-.detail-total{ font-size: 24px; color: var(--brass-bright); font-weight:bold; white-space:nowrap; }
+.detail-total{ font-size: 24px; color: var(--brass-bright); font-weight:bold; margin-top:4px; }
 
 .detail-blocks{
-  display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0;
+  display:flex; flex-direction:column; gap: 16px; margin: 14px 0;
 }
-@media (max-width:520px){ .detail-blocks{ grid-template-columns:1fr; } }
 
 .detail-col{ border-left: 2px solid var(--brass-dim); padding-left:12px; }
 .detail-col.ny{ border-left-color: var(--copper); }
@@ -456,6 +476,18 @@ h1,h2,h3{ font-family:'Cinzel', serif; margin:0; }
 /* ============================================
    RESPONSIVE
 ============================================ */
+@media (max-width: 900px){
+  .layout{ flex-direction: column; padding: 16px; }
+  .node-detail{
+    flex: 1 1 auto;
+    width: 100%;
+    position: static;
+    max-height: none;
+    order: 2; /* la órbita queda arriba, la ficha abajo en mobile */
+  }
+  .engine-room{ order: 1; width: 100%; }
+}
+
 @media (max-width: 640px){
   .orbit-stage{ width: 100%; height: 560px; }
   .hub-socket{ width:130px; height:130px; }
