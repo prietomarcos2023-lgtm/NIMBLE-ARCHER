@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cashflow System — Sala de Máquinas</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ BARRA SUPERIOR ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">⚙</span>
+      <span class="brand-name">CASHFLOW SYSTEM</span>
+    </div>
+
+    <div class="gauges">
+      <div class="gauge">
+        <span class="gauge-num">01</span>
+        <div class="gauge-body">
+          <span class="gauge-label">Capital activo</span>
+          <span class="gauge-value" id="statActiveCapital">$0</span>
+        </div>
+      </div>
+
+      <div class="gauge gauge-split">
+        <span class="gauge-num">02</span>
+        <div class="gauge-body">
+          <span class="gauge-label">Capital después de Split</span>
+          <span class="gauge-value" id="statSplitCapital">$0</span>
+        </div>
+        <div class="split-input">
+          <input type="number" id="splitPercent" min="1" max="100" value="90" />
+          <span>% share</span>
+        </div>
+      </div>
+
+      <div class="gauge">
+        <span class="gauge-num">03</span>
+        <div class="gauge-body">
+          <span class="gauge-label">Nodos activos</span>
+          <span class="gauge-value" id="statNodesActive">0 / 6</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ SALA DE MÁQUINAS (ORBITA) ============ -->
+  <main class="engine-room">
+
+    <div class="plate-texture"></div>
+
+    <div class="orbit-stage" id="orbitStage">
+      <!-- líneas de varillas conectoras, inyectadas por JS -->
+      <svg class="rods" id="rodsSvg"></svg>
+
+      <!-- engranaje central (hub) -->
+      <button class="gear-socket hub-socket" id="hubButton" aria-label="Abrir panel de control">
+        <div class="gear-wrap" id="hubGear"></div>
+        <span class="hub-label">CASHFLOW<br/>SYSTEM</span>
+      </button>
+
+      <!-- panel de control desplegable -->
+      <div class="control-panel" id="controlPanel">
+        <div class="panel-head">
+          <span class="rivet"></span>
+          Panel de control — activar nodos
+          <span class="rivet"></span>
+        </div>
+        <p class="panel-sub">Un nodo solo se activa si el anterior ya está ACTIVO. El capital manda, no el calendario.</p>
+        <ul class="panel-list" id="panelList"><!-- inyectado por JS --></ul>
+      </div>
+
+      <!-- satélites (nodos), inyectados por JS -->
+      <div class="satellites" id="satellites"></div>
+    </div>
+
+  </main>
+
+  <!-- ============ FICHA DE NODO SELECCIONADO ============ -->
+  <section class="node-detail" id="nodeDetail">
+    <p class="detail-placeholder">Tocá un engranaje activo para ver su ficha técnica.</p>
+  </section>
+
+  <!-- ============ PIE ============ -->
+  <footer class="footer-plate">
+    <span class="rivet"></span>
+    <span>BUILD THE SYSTEM.</span>
+    <span>ROTATE THE CAPITAL.</span>
+    <span>PROTECT THE ACCOUNTS.</span>
+    <span>SCALE THE CASHFLOW.</span>
+    <span class="rivet"></span>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
