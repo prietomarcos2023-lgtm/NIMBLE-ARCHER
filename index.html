@@ -46,42 +46,46 @@
     </div>
   </header>
 
-  <!-- ============ SALA DE MÁQUINAS (ORBITA) ============ -->
-  <main class="engine-room">
+  <!-- ============ CUERPO: SIDEBAR + SALA DE MÁQUINAS ============ -->
+  <div class="layout">
 
-    <div class="plate-texture"></div>
+    <!-- ============ FICHA DE NODO SELECCIONADO (sidebar izquierdo) ============ -->
+    <aside class="node-detail" id="nodeDetail">
+      <p class="detail-placeholder">Tocá un engranaje activo para ver su ficha técnica.</p>
+    </aside>
 
-    <div class="orbit-stage" id="orbitStage">
-      <!-- líneas de varillas conectoras, inyectadas por JS -->
-      <svg class="rods" id="rodsSvg"></svg>
+    <main class="engine-room">
 
-      <!-- engranaje central (hub) -->
-      <button class="gear-socket hub-socket" id="hubButton" aria-label="Abrir panel de control">
-        <div class="gear-wrap" id="hubGear"></div>
-        <span class="hub-label">CASHFLOW<br/>SYSTEM</span>
-      </button>
+      <div class="plate-texture"></div>
 
-      <!-- panel de control desplegable -->
-      <div class="control-panel" id="controlPanel">
-        <div class="panel-head">
-          <span class="rivet"></span>
-          Panel de control — activar nodos
-          <span class="rivet"></span>
+      <div class="orbit-stage" id="orbitStage">
+        <!-- líneas de varillas conectoras, inyectadas por JS -->
+        <svg class="rods" id="rodsSvg"></svg>
+
+        <!-- engranaje central (hub) -->
+        <button class="gear-socket hub-socket" id="hubButton" aria-label="Abrir panel de control">
+          <div class="gear-wrap" id="hubGear"></div>
+          <span class="hub-label">CASHFLOW<br/>SYSTEM</span>
+        </button>
+
+        <!-- panel de control desplegable -->
+        <div class="control-panel" id="controlPanel">
+          <div class="panel-head">
+            <span class="rivet"></span>
+            Panel de control — activar nodos
+            <span class="rivet"></span>
+          </div>
+          <p class="panel-sub">Un nodo solo se activa si el anterior ya está ACTIVO. El capital manda, no el calendario.</p>
+          <ul class="panel-list" id="panelList"><!-- inyectado por JS --></ul>
         </div>
-        <p class="panel-sub">Un nodo solo se activa si el anterior ya está ACTIVO. El capital manda, no el calendario.</p>
-        <ul class="panel-list" id="panelList"><!-- inyectado por JS --></ul>
+
+        <!-- satélites (nodos), inyectados por JS -->
+        <div class="satellites" id="satellites"></div>
       </div>
 
-      <!-- satélites (nodos), inyectados por JS -->
-      <div class="satellites" id="satellites"></div>
-    </div>
+    </main>
 
-  </main>
-
-  <!-- ============ FICHA DE NODO SELECCIONADO ============ -->
-  <section class="node-detail" id="nodeDetail">
-    <p class="detail-placeholder">Tocá un engranaje activo para ver su ficha técnica.</p>
-  </section>
+  </div>
 
   <!-- ============ PIE ============ -->
   <footer class="footer-plate">
