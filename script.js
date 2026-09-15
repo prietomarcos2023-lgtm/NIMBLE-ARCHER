@@ -138,6 +138,13 @@ function deleteCustomNode(id){
 // ---------- UTILIDADES ----------
 function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
 
+// helpers defensivos: si el HTML todavía no tiene un elemento nuevo
+// (por ejemplo tras pegar un script.js más nuevo que el index.html),
+// esto evita que TODO el script se detenga por un error.
+function getEl(id){ return document.getElementById(id); }
+function setText(id, value){ const el = getEl(id); if(el) el.textContent = value; }
+function setValue(id, value){ const el = getEl(id); if(el) el.value = value; }
+
 function prevActive(index){
   if(index === 0) return true; // el primer nodo solo depende del hub
   return statusOf(NODES[index-1]) === 'active';
@@ -431,7 +438,8 @@ function renderDetail(node){
           <div class="detail-title">${node.title}</div>
         </div>
         <div class="detail-total">${fmt(node.total)}</div>
-        <div class="detail-status-tag status-${status}">${meta.icon} ${meta.label}</div>
+        <button class="detail-status-tag status-${status}" data-detail-toggle="${node.id}">${meta.icon} ${meta.label}</button>
+        <div class="detail-status-hint">Tocá el estado para avanzarlo</div>
       </div>
       <div class="detail-blocks">
         ${node.london ? `<div class="detail-col">
@@ -447,6 +455,15 @@ function renderDetail(node){
       <div class="detail-unlock"><b>${status === 'locked' ? 'Para activar hace falta:' : 'Requisito de esta etapa:'}</b> ${node.requires}</div>
     </div>
   `;
+
+  const toggleBtn = box.querySelector('[data-detail-toggle]');
+  if(toggleBtn){
+    toggleBtn.addEventListener('click', ()=>{
+      cycleStatus(toggleBtn.dataset.detailToggle);
+      renderAll();
+      renderDetail(node_by_id(toggleBtn.dataset.detailToggle));
+    });
+  }
 }
 
 // ---------- GAUGES (barra superior) ----------
@@ -463,20 +480,18 @@ function renderGauges(){
   const activeCount = NODES.filter(n=>statusOf(n)==='active').length;
   const split = Math.min(100, Math.max(1, Number(state.split) || 90));
 
-  document.getElementById('statActiveCapital').textContent = fmt(activeTotal);
-  document.getElementById('statSplitCapital').textContent = fmt(activeTotal * (split/100));
-  document.getElementById('statNodesActive').textContent = `${activeCount} / ${NODES.length}`;
-  document.getElementById('splitPercent').value = split;
+  setText('statActiveCapital', fmt(activeTotal));
+  setText('statSplitCapital', fmt(activeTotal * (split/100)));
+  setText('statNodesActive', `${activeCount} / ${NODES.length}`);
+  setValue('splitPercent', split);
 
   const nextNode = NODES[activeIdx+1];
-  const pendingEl = document.getElementById('statPendingCapital');
-  const nextLabelEl = document.getElementById('statNextNodeLabel');
   if(nextNode){
-    pendingEl.textContent = fmt(nextNode.total - activeTotal);
-    nextLabelEl.textContent = 'Próximo: ' + nextNode.idLabel + ' — ' + fmt(nextNode.total);
+    setText('statPendingCapital', fmt(nextNode.total - activeTotal));
+    setText('statNextNodeLabel', 'Próximo: ' + nextNode.idLabel + ' — ' + fmt(nextNode.total));
   }else{
-    pendingEl.textContent = '$0';
-    nextLabelEl.textContent = 'Sistema completo';
+    setText('statPendingCapital', '$0');
+    setText('statNextNodeLabel', 'Sistema completo');
   }
 }
 
@@ -565,6 +580,6 @@ window.addEventListener('resize', renderOrbit);
 
 loadState();
 renderAll();
-initHubToggle();
-initSplitInput();
-initAddNodeForm();
+try{ initHubToggle(); }catch(e){ console.error('initHubToggle falló', e); }
+try{ initSplitInput(); }catch(e){ console.error('initSplitInput falló', e); }
+try{ initAddNodeForm(); }catch(e){ console.error('initAddNodeForm falló', e); }
