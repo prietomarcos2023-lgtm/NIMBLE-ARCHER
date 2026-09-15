@@ -1,3 +1,4 @@
+[README (1).md](https://github.com/user-attachments/files/32218902/README.1.md)
 # ⚙ CASHFLOW SYSTEM — Sala de Máquinas
 
 Dashboard steampunk de progresión de capital. Cada etapa del sistema (Nodo 1 a Nodo 6) es un engranaje que orbita alrededor del engranaje central (`CASHFLOW SYSTEM`). Los nodos no se desbloquean por calendario — se activan a mano, cuando el capital real está listo para rotar.
@@ -38,26 +39,30 @@ Abrir `http://localhost:8000`
 
 Está siempre visible y en movimiento. Al hacer click abre el **panel de control**: una lista de los 6 nodos con un interruptor (switch) por cada uno.
 
-### Activar un nodo
+### Activar un nodo — ahora con 3 estados
 
-- Cada interruptor del panel enciende/apaga su nodo.
-- Al encender un nodo, su engranaje **aparece en órbita** alrededor del hub, conectado por una varilla de bronce.
-- Si el nodo anterior no está activo, el interruptor aparece bloqueado — no se puede "saltar" etapas. Esto refleja la regla central del sistema: **el capital manda, no el tiempo.**
-- Apagar un nodo apaga en cascada todos los nodos posteriores (si no tenés el Nodo 3 activo, no puede seguir activo el Nodo 4).
+Cada nodo del panel tiene un **status pill** que rotás con click:
 
-### Ficha técnica
+| Estado | Qué significa | Efecto visual |
+|---|---|---|
+| 🔒 **LOCKED** | Las cuentas todavía no existen | Engranaje apagado/gris en la órbita |
+| 🟡 **READY** | Cuentas conseguidas, esperando entrar a rotación | Engranaje dorado con pulso suave, quieto |
+| 🟢 **ACTIVE** | Cuentas incorporadas a la rotación real | Engranaje girando, brillo cálido, cuenta para el capital |
 
-Al tocar un engranaje ya activo en la órbita, aparece abajo su ficha completa: capital total, desglose CFD (Londres) / Futuros (New York), nota de la etapa y qué hace falta conseguir para desbloquear el siguiente nodo.
+Un nodo solo puede avanzar más allá de LOCKED si el nodo anterior está en ACTIVE. Si desactivás un nodo (lo bajás de ACTIVE), todo lo posterior cae en cascada a LOCKED — nunca queda un estado "huérfano" que no tenga sentido con la cadena real de capital.
 
-### Barra superior — indicadores
+Todos los nodos (incluso LOCKED) están siempre visibles en la órbita, para que veas el mapa completo del sistema aunque todavía no hayas llegado ahí — pero oscurecidos, sin girar, hasta que sean reales.
 
-| Indicador | Qué muestra |
-|---|---|
-| **01 · Capital activo** | Total gestionado según el nodo más avanzado que esté ACTIVO |
-| **02 · Capital después de Split** | Capital activo × % de reward share configurado (campo editable, default 90%) |
-| **03 · Nodos activos** | Cuántos de los 6 nodos están encendidos |
+### Barra superior — 4 indicadores
 
-El campo de **% share** junto al indicador 02 es editable — ajustalo según el reward share real de la prop firm que estés usando en ese momento (Lucid Flex = 90%, FTMO hasta 95%, etc.).
+| # | Indicador | Qué muestra |
+|---|---|---|
+| 01 | **Capital funded** | Capital del nodo ACTIVE más avanzado |
+| 02 | **Capital después del split** | Capital funded × % de reward share (editable) |
+| 03 | **Nodos activos** | Cuántos nodos están en ACTIVE, sobre el total |
+| 04 | **Falta para el próximo nodo** | Diferencia entre el capital actual y el total del siguiente nodo, con su nombre |
+
+Con el indicador 04 tu cerebro ve de una: *"estoy acá → el próximo objetivo estructural está a $X"* — sin pensar en qué mes del calendario estás.
 
 ---
 
@@ -75,24 +80,18 @@ location.reload();
 
 ## Personalizar los nodos
 
-Todo el contenido de cada etapa vive en el array `NODES` al principio de `script.js`:
+Los 6 nodos base viven en el array `BASE_NODES` al principio de `script.js`. Pero **no hace falta tocar código** para seguir creciendo: en el panel de control hay un botón **"+ Nuevo nodo"** al final de la lista.
 
-```js
-{
-  id: 'n1', idLabel: 'NODO 1', title: 'Sistema inicial',
-  total: 15000, teeth: 10,
-  london: ['$5K', '$10K'],
-  note: '...',
-  unlock: 'Texto de qué hace falta para el siguiente nodo',
-}
-```
+Completá:
+- **Nombre del nodo** (ej. "Nodo 7 — Refuerzo Q1 2027")
+- **Capital total gestionado** en esa etapa
+- **Cuentas CFD · London** separadas por coma (ej. `100K, 100K, 100K`)
+- **Cuentas Futuros · New York** separadas por coma
+- **Nota** de qué representa la etapa
 
-- `total`: capital total gestionado en esa etapa (define el indicador 01/02 de la barra superior)
-- `teeth`: cantidad de dientes del engranaje (más dientes = engranajes más grandes se ven bien con 14-18)
-- `london` / `ny`: listas de cuentas que se muestran como chips en la ficha
-- `final: true`: agrega el badge "OBJETIVO ALCANZADO" en la ficha (usalo en el último nodo)
+El nodo nuevo entra en **LOCKED** por defecto — lo marcás READY cuando consigas las cuentas reales, y ACTIVE cuando entren a rotación. Se guarda en tu navegador (localStorage) y queda enganchado en la cadena secuencial como cualquier otro nodo: no se activa si el anterior no está en ACTIVE.
 
-Para agregar un Nodo 7 en adelante, simplemente agregá un objeto más al array — la órbita, el panel y las varillas se recalculan solos según cuántos nodos haya.
+Para borrar un nodo personalizado, usá la **×** que aparece al lado suyo en el panel (los 6 nodos base no se pueden borrar desde la UI, viven en el código).
 
 ---
 
