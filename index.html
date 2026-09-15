@@ -19,7 +19,7 @@
       <div class="gauge">
         <span class="gauge-num">01</span>
         <div class="gauge-body">
-          <span class="gauge-label">Capital activo</span>
+          <span class="gauge-label">Capital funded</span>
           <span class="gauge-value" id="statActiveCapital">$0</span>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div class="gauge gauge-split">
         <span class="gauge-num">02</span>
         <div class="gauge-body">
-          <span class="gauge-label">Capital después de Split</span>
+          <span class="gauge-label">Capital después del split</span>
           <span class="gauge-value" id="statSplitCapital">$0</span>
         </div>
         <div class="split-input">
@@ -41,6 +41,15 @@
         <div class="gauge-body">
           <span class="gauge-label">Nodos activos</span>
           <span class="gauge-value" id="statNodesActive">0 / 6</span>
+        </div>
+      </div>
+
+      <div class="gauge gauge-pending">
+        <span class="gauge-num">04</span>
+        <div class="gauge-body">
+          <span class="gauge-label">Falta para el próximo nodo</span>
+          <span class="gauge-value" id="statPendingCapital">$0</span>
+          <span class="gauge-sub" id="statNextNodeLabel">—</span>
         </div>
       </div>
     </div>
@@ -77,6 +86,31 @@
           </div>
           <p class="panel-sub">Un nodo solo se activa si el anterior ya está ACTIVO. El capital manda, no el calendario.</p>
           <ul class="panel-list" id="panelList"><!-- inyectado por JS --></ul>
+
+          <div class="add-node-row">
+            <button class="add-node-btn" id="addNodeToggle" type="button">+ Nuevo nodo</button>
+            <div class="add-node-form" id="addNodeForm">
+              <label>Nombre del nodo
+                <input type="text" id="newNodeTitle" placeholder="Ej: Nodo 7 — Refuerzo Q1" />
+              </label>
+              <label>Capital total gestionado (USD)
+                <input type="number" id="newNodeTotal" placeholder="Ej: 1000000" min="0" />
+              </label>
+              <label>Cuentas CFD · London (separadas por coma)
+                <input type="text" id="newNodeLondon" placeholder="Ej: 100K, 100K, 100K" />
+              </label>
+              <label>Cuentas Futuros · New York (separadas por coma)
+                <input type="text" id="newNodeNY" placeholder="Ej: 100K, 100K" />
+              </label>
+              <label>Nota / condición de la etapa
+                <textarea id="newNodeNote" placeholder="Qué representa este nodo"></textarea>
+              </label>
+              <div class="add-node-actions">
+                <button class="add-node-save" id="addNodeSave" type="button">Guardar nodo</button>
+                <button class="add-node-cancel" id="addNodeCancel" type="button">Cancelar</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- satélites (nodos), inyectados por JS -->
