@@ -9,25 +9,25 @@
 const BASE_NODES = [
   {
     id: 'n1', idLabel: 'NODO 1', title: 'Sistema inicial',
-    total: 15000, teeth: 10,
-    london: ['$5K', '$10K'],
+    total: 30000, teeth: 10,
+    london: ['$5K', '$25K'],
     note: 'Se opera durante las semanas disponibles ejecutando el sistema correctamente. No existe objetivo obligatorio de ganancias — el objetivo es demostrar que la rotación funciona.',
-    requires: 'Cuentas $5K y $10K conseguidas y listas para operar.',
+    requires: 'Cuentas $5K Funding pips y $25K de Lucid flex conseguidas y listas para operar.',
   },
   {
     id: 'n2', idLabel: 'NODO 2', title: 'Primera rotación',
-    total: 50000, teeth: 11,
-    london: ['$5K', '$10K A', '$10K B', '$25K'],
-    note: 'Bloque A ($10K A + $25K): primera rotación, luego preparadas para retiro. Bloque B ($10K B + $5K): segunda rotación. No hace falta operar todas las cuentas al mismo tiempo.',
-    requires: 'Ganancias de Nodo 1 permiten adquirir $10K adicional + $25K adicional.',
+    total: 70000, teeth: 11,
+    london: ['$10K', '$10K A', '$25K B', '$25K'],
+    note: 'Bloque A ($10K A + $10K): primera rotación, luego preparadas para retiro. Bloque B ($25K B + $25K): segunda rotación. No hace falta operar todas las cuentas al mismo tiempo.',
+    requires: 'Ganancias de Nodo 1 permiten adquirir más challenges Rey.',
   },
   {
     id: 'n3', idLabel: 'NODO 3', title: 'Separación CFD + Futuros',
-    total: 120000, teeth: 12,
+    total: 270000, teeth: 12,
     london: ['$25K', '$25K', '$10K', '$10K'],
-    ny: ['$50K Lucid Flex'],
+    ny: ['$50K x 4', Lucid Flex'],
     note: 'Primera vez que aparece la arquitectura: Londres → CFDs, New York → Futuros. Bloque A ($25K+$25K) y Bloque B ($10K+$10K) rotan en Londres; Futuros opera independiente.',
-    requires: 'La cuenta $5K sale de rotación. Se consigue $25K adicional (CFD) + la primera cuenta de Futuros $50K (NY).',
+    requires: 'La cuenta $5K sale de rotación.
   },
   {
     id: 'n4', idLabel: 'NODO 4', title: 'Expansión',
